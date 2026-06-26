@@ -30,6 +30,6 @@ public class Jugador {
   private String email;
 
   private String password;
-  private String rango;
+  private String rango="Principiante";
 
 }
