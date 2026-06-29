@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.math.BigDecimal;
 
@@ -23,9 +25,13 @@ public class Torneo {
   private Integer id;
 
   @Column(name = "nombre_torneo", nullable = false, length = 100)
+  @NotBlank
+  @NonNull
   private String nombreTorneo;
 
   @Column(name = "nombre_juego", nullable = false, length = 50)
+  @NotBlank
+  @NonNull
   private String nombreJuego;
 
   @Column(precision = 10, scale = 2)
