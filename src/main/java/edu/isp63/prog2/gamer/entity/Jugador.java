@@ -22,6 +22,7 @@ public class Jugador {
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Integer id;
+
   @Column(name="nickname", nullable=false, length=200)
   @NotBlank
   private String nickname;
