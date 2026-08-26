@@ -9,15 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class JugadorServiceImpl implements JugadorService {
-  // SI O SI LOS SERVICES NECESITAN INYECTAR REPOSITORY
+// SI O SI LOS SERVICES NECESITAN INYECTAR REPOSITORY
   // Inyección de Dependencias por constructor
 
   // 1: crear variable tipo final
   private final JugadorRepository jugadorRepository;
+
 
   // 2: crear constructor para inicializar la variable
   public JugadorServiceImpl(JugadorRepository jugadorRepository) {
@@ -33,7 +35,6 @@ public class JugadorServiceImpl implements JugadorService {
             .stream()
             .map(this::toResponseDTO)
             .toList();
-
     return lista;
   }
 
@@ -66,5 +67,50 @@ public class JugadorServiceImpl implements JugadorService {
         jugadorGuardado.getNickname(),
         jugadorGuardado.getEmail(),
         jugadorGuardado.getRango());
+  }
+
+  @Override
+  public JugadorResponseDTO buscarJugadorPorId(Integer id) {
+    // llamar al repository para encontrar el jugador con ese id
+    Optional<Jugador> jugador = jugadorRepository.findById(id);
+    JugadorResponseDTO responseDTO = null;
+    // si el jugador no es null
+    if(jugador.isPresent()) {
+      // lo convierto a DTO
+      responseDTO = toResponseDTO(jugador.get());
+    }
+    // devuelvo el dto
+    return responseDTO;
+  }
+
+  @Override
+  public Optional<JugadorResponseDTO> buscarJugadorPorIdv2(Integer id) {
+    // busco por id con repository
+    Optional<Jugador> jugador = jugadorRepository.findById(id);
+    // genero un optional de response a partir de un jugador que puede que sea nulo
+    return jugador.map(this::toResponseDTO);
+  }
+
+  @Override
+  public Optional<JugadorResponseDTO> actualizar(Integer id, JugadorCreateDTO jugador) {
+    return jugadorRepository.findById(id)
+        .map(jugador1 -> {
+          jugador1.setNickname(jugador.nickname());
+          jugador1.setEmail(jugador.email());
+          jugador1.setPassword(jugador.password());
+          return jugadorRepository.save(jugador1);
+        })
+        .map(this::toResponseDTO);
+  }
+
+  @Override
+  public boolean eliminarJugador(Integer id) {
+    if(jugadorRepository.existsById(id)) {
+      Jugador jugador = jugadorRepository.findById(id).get();
+      jugadorRepository.delete(jugador);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

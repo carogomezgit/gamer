@@ -46,7 +46,7 @@ public class TorneoServiceImpl implements TorneoService {
 
   @Override
   public List<TorneoResponseDTO> buscarPorNombre(String nombreTorneo) {
-    return torneoRepository.findByNombreIgnoreCase(nombreTorneo)
+    return torneoRepository.findByNombreTorneoIgnoreCase(nombreTorneo)
         .stream()
         .map(this::toResponseDTO)
         .toList();
