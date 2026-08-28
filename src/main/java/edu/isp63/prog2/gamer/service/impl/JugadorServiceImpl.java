@@ -143,4 +143,9 @@ public class JugadorServiceImpl implements JugadorService {
         .map(this::toResponseDTO)
         .toList();
   }
+
+  @Override
+  public Optional<String> findEmailByIdJPQL(Integer id) {
+    return jugadorRepository.findEmailByIdJPQL(id);
+  }
 }

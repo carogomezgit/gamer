@@ -134,4 +134,13 @@ public class JugadorController {
       (@PathVariable String email) {
     return ResponseEntity.ok(jugadorService.findByEmailJPQL(email));
   }
+
+  @GetMapping("/buscaremailporid")
+  public ResponseEntity<String> findEmailByIdJPQL(@RequestParam Integer id) {
+    if(jugadorService.findEmailByIdJPQL(id).isPresent()) {
+      return ResponseEntity.ok(jugadorService.findEmailByIdJPQL(id).get());
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
 }

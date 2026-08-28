@@ -75,11 +75,15 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
   List<Jugador> findByEmailContainingAndNickname(String arroba, String nickname);
 
   // SELECT * FROM JUGADORES j WHERE j.nickname LIKE nickname AND j.email LIKE "@"
-  // JPQL con paramentros nombrados
+  // JPQL con paramentros nombrados devuelve entidad completa
   @Query ("SELECT j FROM Jugador j WHERE j.nickname LIKE :nickname")
   List<Jugador> findByNicknameJPQL(@Param("nickname") String nickname);
 
-  // JPQL con parametros posicionales
+  // JPQL con parametros posicionales devuelve entidad completa
   @Query ("SELECT j FROM Jugador j WHERE j.email LIKE ?1")
   List<Jugador> findByEmailJPQL(String email);
+
+  // JPQL con parametros nombrados y devuelve escalar
+  @Query ("SELECT j.email FROM Jugador j WHERE j.id = :id")
+  Optional<String> findEmailByIdJPQL(@Param("id") Integer id);
 }

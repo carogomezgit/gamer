@@ -23,5 +23,5 @@ public interface JugadorService {
   // para JPQL
   List<JugadorResponseDTO> findByNicknameJPQL(String nickname);
   List<JugadorResponseDTO> findByEmailJPQL(String email);
-
+  Optional<String> findEmailByIdJPQL(Integer id);
 }
