@@ -2,9 +2,13 @@ package edu.isp63.prog2.gamer.controller;
 
 import edu.isp63.prog2.gamer.dto.JugadorCreateDTO;
 import edu.isp63.prog2.gamer.dto.JugadorResponseDTO;
+import edu.isp63.prog2.gamer.entity.Jugador;
 import edu.isp63.prog2.gamer.service.JugadorService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +35,7 @@ public class JugadorController {
     this.jugadorService = jugadorService;
   }
 
-  @GetMapping
+  @GetMapping()
   List<JugadorResponseDTO> listaJugadores() {
     return jugadorService.listarTodosJugadores();
   }
@@ -104,5 +108,18 @@ public class JugadorController {
     return jugadorService.eliminarJugador(id)?
         ResponseEntity.noContent().build()
         : ResponseEntity.notFound().build();
+  }
+
+  @GetMapping("/listartodospage")
+  public ResponseEntity<Page<JugadorResponseDTO>> listarJugadoresPaginado(
+      @PageableDefault(size = 10) Pageable pageable) {
+    return ResponseEntity.ok(jugadorService.listarTodos(pageable));
+  }
+
+  @GetMapping("/listarporrangopage")
+  public ResponseEntity<Page<JugadorResponseDTO>> listarPorRangoPaginado(
+      @PathVariable String rango,
+      @PageableDefault(size = 10) Pageable pageable) {
+    return ResponseEntity.ok(jugadorService.listarPorRango(rango, pageable));
   }
 }

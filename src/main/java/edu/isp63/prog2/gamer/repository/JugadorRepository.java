@@ -3,6 +3,8 @@ package edu.isp63.prog2.gamer.repository;
 
 import edu.isp63.prog2.gamer.entity.Jugador;
 import edu.isp63.prog2.gamer.entity.Torneo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +69,7 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
   List<Jugador> findAllByOrderByNickname(String nickname);
 
 
+  Page<Jugador> findByRangoContaining (String rango, Pageable pageable);
 
 
 }
