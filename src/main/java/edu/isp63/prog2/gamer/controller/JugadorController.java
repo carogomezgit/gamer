@@ -122,4 +122,16 @@ public class JugadorController {
       @PageableDefault(size = 10) Pageable pageable) {
     return ResponseEntity.ok(jugadorService.listarPorRango(rango, pageable));
   }
+
+  @GetMapping("/listarpornickname/{nickname}")
+  public ResponseEntity<List<JugadorResponseDTO>> listarPorNicknameJPQL
+      (@PathVariable String nickname) {
+    return ResponseEntity.ok(jugadorService.findByNicknameJPQL(nickname));
+  }
+
+  @GetMapping("/listarporemail/{email}")
+  public ResponseEntity<List<JugadorResponseDTO>> listarPorEmailJPQL
+      (@PathVariable String email) {
+    return ResponseEntity.ok(jugadorService.findByEmailJPQL(email));
+  }
 }

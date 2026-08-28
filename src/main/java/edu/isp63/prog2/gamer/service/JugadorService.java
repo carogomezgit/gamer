@@ -19,4 +19,9 @@ public interface JugadorService {
   Page<JugadorResponseDTO> listarTodos(Pageable pageable);
 
   Page<JugadorResponseDTO> listarPorRango(String rango, Pageable pageable);
+
+  // para JPQL
+  List<JugadorResponseDTO> findByNicknameJPQL(String nickname);
+  List<JugadorResponseDTO> findByEmailJPQL(String email);
+
 }

@@ -33,4 +33,5 @@ public class Jugador {
   private String password;
   private String rango="Principiante";
 
+
 }

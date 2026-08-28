@@ -127,4 +127,20 @@ public class JugadorServiceImpl implements JugadorService {
     return jugadorRepository.findByRangoContaining(rango, pageable)
         .map(this::toResponseDTO);
   }
+
+  @Override
+  public List<JugadorResponseDTO> findByNicknameJPQL(String nickname) {
+    return jugadorRepository.findByNicknameJPQL(nickname)
+        .stream()
+        .map(this::toResponseDTO)
+        .toList();
+  }
+
+  @Override
+  public List<JugadorResponseDTO> findByEmailJPQL(String email) {
+    return jugadorRepository.findByEmailJPQL(email)
+        .stream()
+        .map(this::toResponseDTO)
+        .toList();
+  }
 }

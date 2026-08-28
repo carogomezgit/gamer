@@ -6,6 +6,8 @@ import edu.isp63.prog2.gamer.entity.Torneo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
   List<Jugador> findByRangoContainingOrderByNicknameDesc (String rango);
 
   // unir criterios con AND
-  List<Jugador> findByEmailContainingAndNickname(String arroba, String nickname);
+  // List<Jugador> findByEmailContainingAndNickname(String arroba, String nickname);
 
   // busca los primeros 3 jugadores que encuentre con ese rango y los ordena por email
   List<Jugador> findTop3ByRangoOrderByEmailAsc(String rango);
@@ -45,7 +47,6 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
 
   // 3. Verificar si existe un jugador con un email dado
   Boolean existsByEmail(String email);
-
   // 5. Buscar jugadores cuyo rango sea distinto de "Principiante"
   List<Jugador> findByRangoNot(String rango);
 
@@ -56,7 +57,7 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
   List<Jugador> findByRangoIn(List<String> jugadores);
 
   // 16. Buscar jugadores cuyo nickname contenga una subcadena dada.
-  List<Jugador> findByNicknameContaining(String nickname);
+  // List<Jugador> findByNicknameContaining(String nickname);
 
   // 18. Buscar jugadores cuyo email termine con un dominio dado,
   // por ejemplo "@gmail.com".
@@ -68,8 +69,17 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer> {
   // 23. Obtener todos los jugadores ordenados por nickname de forma ascendente sin condición.
   List<Jugador> findAllByOrderByNickname(String nickname);
 
-
   Page<Jugador> findByRangoContaining (String rango, Pageable pageable);
 
+  // unir criterios con AND
+  List<Jugador> findByEmailContainingAndNickname(String arroba, String nickname);
 
+  // SELECT * FROM JUGADORES j WHERE j.nickname LIKE nickname AND j.email LIKE "@"
+  // JPQL con paramentros nombrados
+  @Query ("SELECT j FROM Jugador j WHERE j.nickname LIKE :nickname")
+  List<Jugador> findByNicknameJPQL(@Param("nickname") String nickname);
+
+  // JPQL con parametros posicionales
+  @Query ("SELECT j FROM Jugador j WHERE j.email LIKE ?1")
+  List<Jugador> findByEmailJPQL(String email);
 }
